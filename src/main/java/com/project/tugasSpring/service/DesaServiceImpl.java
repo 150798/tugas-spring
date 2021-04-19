@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tugasSpring.model.dto.DesaDto;
+import com.project.tugasSpring.model.dto.StatusMessageDto;
 import com.project.tugasSpring.model.entity.Desa;
 import com.project.tugasSpring.model.entity.Kabupaten;
 import com.project.tugasSpring.model.entity.Kecamatan;
@@ -27,31 +28,46 @@ public class DesaServiceImpl implements DesaService{
 	private ProvinsiRepository provinsiRepository;
 	
 	@Override
-	public Desa insertData(DesaDto desaDto) {
-		Desa desa = new Desa();
+	public StatusMessageDto<?> insertData(DesaDto desaDto) {
 		
-		if(!desaDto.getKodeDesa().isEmpty()) {
-			desa.setKodeDesa(desaDto.getKodeDesa());
-			desa.setNamaDesa(desaDto.getNamaDesa());
+		StatusMessageDto<Desa> result = new StatusMessageDto<>();
+		Desa desa = new Desa();
+		Desa desaexisting = desaRepository.findByKodeDesa("D" + desaDto.getKodeDesa());
+		
+		if(desaexisting != null) {
+			result.setStatus(400);
+			result.setMessage("Kode Desa sudah pernah dipakai");
 			
-			Kecamatan kecamatan = kecamatanRepository.findByKodeKecamatan(desaDto.getKodeKecamatan());
-			desa.setKecamatan(kecamatan);
-			Kabupaten kabupaten = kabupatenRepository.findByKodeKabupaten(desaDto.getKodeKabupaten());
-			desa.setKabupaten(kabupaten);
-			Provinsi provinsi = provinsiRepository.findByKodeProvinsi(desaDto.getKodeProvinsi());
-			desa.setProvinsi(provinsi);
-			
-			desa.setStatus(true);
-			desaRepository.save(desa);
-			return desa;
+		} else if (!desaDto.getKodeDesa().isEmpty()) {
+			 
+				desa.setKodeDesa("D" + desaDto.getKodeDesa());
+				desa.setNamaDesa(desaDto.getNamaDesa());
+				
+				Kecamatan kecamatan = kecamatanRepository.findByKodeKecamatan(desaDto.getKodeKecamatan());
+				desa.setKecamatan(kecamatan);
+				Kabupaten kabupaten = kabupatenRepository.findByKodeKabupaten(desaDto.getKodeKabupaten());
+				desa.setKabupaten(kabupaten);
+				Provinsi provinsi = provinsiRepository.findByKodeProvinsi(desaDto.getKodeProvinsi());
+				desa.setProvinsi(provinsi);
+				
+				desa.setStatus(true);
+				desaRepository.save(desa);
+				
+				result.setStatus(200);
+				result.setMessage("Insert Data Desa berhasil!");
+				result.setData(desa);
+				
+			} else {
+			result.setStatus(400);
+			result.setMessage("Gagal menyimpan data Desa!");
 		}
-		return null;
+		return result;
 	}
 	
 	@Override
 	public Desa updateData(Integer id, DesaDto dto) {
 		Desa desa = desaRepository.findById(id).get();
-		desa.setKodeDesa(dto.getKodeDesa());
+		desa.setKodeDesa("D" + dto.getKodeDesa());
 		desa.setNamaDesa(dto.getNamaDesa());
 //		desa.setKodeKecamatan(dto.getKodeKecamatan());
 //		desa.setKodeKabupaten(dto.getKodeKecamatan());

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tugasSpring.model.dto.ProvinsiDto;
+import com.project.tugasSpring.model.dto.StatusMessageDto;
 import com.project.tugasSpring.model.entity.Provinsi;
 import com.project.tugasSpring.repository.ProvinsiRepository;
 import com.project.tugasSpring.service.ProvinsiService;
@@ -37,7 +38,7 @@ public class ProvinsiController {
 	//INSERT DATA PROVINSI
 	@PostMapping("/insert/provinsi")
 	public ResponseEntity<?> insertProvinsi(@RequestBody ProvinsiDto provinsiDto){
-		Provinsi provinsi = provinsiService.insertData(provinsiDto);
+		StatusMessageDto <?> provinsi = provinsiService.insertData(provinsiDto);
 		return ResponseEntity.ok(provinsi);
 	}
 	

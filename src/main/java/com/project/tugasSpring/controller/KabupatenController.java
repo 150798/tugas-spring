@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tugasSpring.model.dto.KabupatenDto;
+import com.project.tugasSpring.model.dto.StatusMessageDto;
 import com.project.tugasSpring.model.entity.Kabupaten;
 import com.project.tugasSpring.repository.KabupatenRepository;
 import com.project.tugasSpring.service.KabupatenService;
@@ -38,7 +39,7 @@ public class KabupatenController {
 	//INSERT DATA KABUPATEN
 	@PostMapping ("/insert/kabupaten")
 	public ResponseEntity<?> insertKabupaten(@RequestBody KabupatenDto kabupatenDto){
-		Kabupaten kabupaten = kabupatenService.insertData(kabupatenDto);
+		StatusMessageDto<?> kabupaten = kabupatenService.insertData(kabupatenDto);
 		return ResponseEntity.ok(kabupaten);
 	}
 	

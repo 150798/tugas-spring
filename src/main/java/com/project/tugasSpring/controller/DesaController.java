@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.project.tugasSpring.model.dto.DesaDto;
+import com.project.tugasSpring.model.dto.StatusMessageDto;
 import com.project.tugasSpring.model.entity.Desa;
 import com.project.tugasSpring.repository.DesaRepository;
 import com.project.tugasSpring.service.DesaService;
@@ -36,7 +37,7 @@ public class DesaController {
 	//INSERT DATA DESA
 	@PostMapping("/insert/desa")
 	public ResponseEntity<?> insertDesa(@RequestBody DesaDto desaDto){
-		Desa desa = desaService.insertData(desaDto);
+		StatusMessageDto<?> desa = desaService.insertData(desaDto);
 		return ResponseEntity.ok(desa);
 	}
 	

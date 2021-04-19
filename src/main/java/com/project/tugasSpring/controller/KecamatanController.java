@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tugasSpring.model.dto.KecamatanDto;
+import com.project.tugasSpring.model.dto.StatusMessageDto;
 import com.project.tugasSpring.model.entity.Kecamatan;
 import com.project.tugasSpring.repository.KecamatanRepository;
 import com.project.tugasSpring.service.KecamatanService;
@@ -37,7 +38,7 @@ public class KecamatanController {
 	//INSERT DATA KECAMATAN
 	@PostMapping ("/insert/kecamatan")
 	public ResponseEntity<?> insertKecamatan(@RequestBody KecamatanDto kecamatanDto){
-		Kecamatan kecamatan = kecamatanService.insertData(kecamatanDto);
+		StatusMessageDto<?> kecamatan = kecamatanService.insertData(kecamatanDto);
 		return ResponseEntity.ok(kecamatan);
 	}
 	
